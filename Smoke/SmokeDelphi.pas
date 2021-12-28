@@ -3,7 +3,8 @@ unit SmokeDelphi;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
 
 type
@@ -12,8 +13,10 @@ type
     procedure enableSmokeEffect(Sender: TObject);
     procedure disableSmokeEffect(Sender: TObject);
     procedure onClickShowDialog(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
+    var oldFormColor: TColor;
   public
     { Public declarations }
   end;
@@ -26,33 +29,35 @@ implementation
 {$R *.dfm}
 
 procedure TForm1.disableSmokeEffect(Sender: TObject);
+// This is called from the OnActivate event handler
 begin
-
-   var formColor: TColor;
-   formColor := clBtnFace;
-
-   Form1.Color := formColor;
+  Form1.Color := oldFormColor;
 end;
 
 procedure TForm1.enableSmokeEffect(Sender: TObject);
-
+// This is called from the OnDeactivate event handler
 begin
+  var smokeEffect := RGB(175, 175, 175);
+  oldFormColor := Form1.Color;
 
-   var smokeEffect: TColor;
-   smokeEffect := RGB(175,175,175);
+  Form1.Color := smokeEffect;
 
-   Form1.Color := smokeEffect;
+  var
+  dialogMessage := 'Smoke effect is used to highlight dialogs';
 
-   var dialogMessage := 'Smoke effect is used to highlight dialogs';
+  ShowMessage(dialogMessage);
 
-	ShowMessage(dialogMessage);
+  Form1.Activate();
+end;
 
-    Form1.Activate();
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  oldFormColor := Form1.Color;
 end;
 
 procedure TForm1.onClickShowDialog(Sender: TObject);
 begin
-    Form1.DeActivate();
+  Form1.DeActivate();
 end;
 
 end.

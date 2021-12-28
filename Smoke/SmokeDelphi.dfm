@@ -11,6 +11,7 @@ object Form1: TForm1
   Font.Name = 'Segoe UI'
   Font.Style = []
   OnActivate = disableSmokeEffect
+  OnCreate = FormCreate
   OnDeactivate = enableSmokeEffect
   PixelsPerInch = 96
   TextHeight = 15
