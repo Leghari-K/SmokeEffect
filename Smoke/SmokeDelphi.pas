@@ -8,17 +8,29 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
 
 type
-  TForm1 = class(TForm)
+    TForm1 = class(TForm)
+
+
     Button1: TButton;
-    procedure enableSmokeEffect(Sender: TObject);
-    procedure disableSmokeEffect(Sender: TObject);
+    Button2: TButton;
+    Label1: TLabel;
+    CheckBox1: TCheckBox;
+    RadioButton1: TRadioButton;
+    RadioButton2: TRadioButton;
+    Edit1: TEdit;
     procedure onClickShowDialog(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+
   private
-    { Private declarations }
+
+
     var oldFormColor: TColor;
+    var Back: TForm;
   public
-    { Public declarations }
+     procedure EnableSmokeEffect2(Form: TForm);
+     procedure disableSmokeEffect();
+
+
   end;
 
 var
@@ -28,26 +40,30 @@ implementation
 
 {$R *.dfm}
 
-procedure TForm1.disableSmokeEffect(Sender: TObject);
-// This is called from the OnActivate event handler
+procedure TForm1.disableSmokeEffect();
+// This can be called from the OnActivate event handler
 begin
-  Form1.Color := oldFormColor;
+    Back.Close();
 end;
 
-procedure TForm1.enableSmokeEffect(Sender: TObject);
-// This is called from the OnDeactivate event handler
+
+procedure TForm1.EnableSmokeEffect2(Form: TForm);
+// This can be called from the OnDeactivate event handler
+
 begin
-  var smokeEffect := RGB(175, 175, 175);
-  oldFormColor := Form1.Color;
+  Back := TForm.Create(nil);
+  try
+    Back.Position := poMainFormCenter;
+    Back.BorderStyle := bsNone;
+    Back.AlphaBlend := true;
+    Back.AlphaBlendValue := 150;
+    Back.Color := clBlack;
+    Back.SetBounds(Form.Left, Form.Top, Form.Width-15, Form.Height);
+    Back.Show;
 
-  Form1.Color := smokeEffect;
+  finally
 
-  var
-  dialogMessage := 'Smoke effect is used to highlight dialogs';
-
-  ShowMessage(dialogMessage);
-
-  Form1.Activate();
+  end;
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -57,7 +73,17 @@ end;
 
 procedure TForm1.onClickShowDialog(Sender: TObject);
 begin
-  Form1.DeActivate();
+    EnableSmokeEffect2(Form1);
+     var
+    dialogMessage := 'Smoke effect is used to highlight dialogs';
+    ShowMessage(dialogMessage);
+
+    disableSmokeEffect();
 end;
+
+
+
+
+
 
 end.
