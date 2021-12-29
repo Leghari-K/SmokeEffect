@@ -8,6 +8,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TForm1 *Form1;
+TForm *Back;
+
 //---------------------------------------------------------------------------
 __fastcall TForm1::TForm1(TComponent* Owner)
 	: TForm(Owner)
@@ -16,32 +18,38 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 
 
 }
+
 //---------------------------------------------------------------------------
 void __fastcall TForm1::onClickShowDialog(TObject *Sender)
 {
-
-    Form1->Deactivate();
-
-
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TForm1::enableSmokeEffect(TObject *Sender)
-{
-
-	TColor smokeEffect{RGB(175,175,175)};
-
-	Form1->Color = smokeEffect;
+    enableSmokeEffect(Form1);
 	ShowMessage("Smoke effect is used to highlight dialogs");
-    Form1->Activate();
+    disableSmokeEffect();
+
+
+
 
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::disableSmokeEffect(TObject *Sender)
+
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::enableSmokeEffect(TForm1 *Form)
 {
-   TColor formColor{clBtnFace};
-   Form1->Color = formColor;
+	Back =  new TForm (this);
+	Back->Position = poMainFormCenter;
+    Back->Color = clBlack;
+	Back->AlphaBlend = true;
+	Back->AlphaBlendValue = 150;
+
+	Back->SetBounds(Form->Left, Form->Top, Form->Width, Form->Height);
+    Back->Show();
 }
 //---------------------------------------------------------------------------
 
+
+void __fastcall TForm1::disableSmokeEffect()
+{
+   Back->Hide();
+}
