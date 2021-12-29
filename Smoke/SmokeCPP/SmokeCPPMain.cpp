@@ -25,10 +25,6 @@ void __fastcall TForm1::onClickShowDialog(TObject *Sender)
     enableSmokeEffect(Form1);
 	ShowMessage("Smoke effect is used to highlight dialogs");
     disableSmokeEffect();
-
-
-
-
 }
 //---------------------------------------------------------------------------
 
