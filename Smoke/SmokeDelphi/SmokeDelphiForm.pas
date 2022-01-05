@@ -19,17 +19,13 @@ type
     Edit1: TEdit;
     procedure onClickShowDialog(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
 
   private
-
-  var
-    oldFormColor: TColor;
-
-  var
     Smoke: TForm;
   public
     procedure EnableSmokeEffect;
-    procedure disableSmokeEffect;
+    procedure DisableSmokeEffect;
 
   end;
 
@@ -40,21 +36,13 @@ implementation
 
 {$R *.dfm}
 
-procedure TForm1.disableSmokeEffect;
+procedure TForm1.DisableSmokeEffect;
 begin
-  Smoke.FreeOnRelease;
-  Smoke.Release;
-  Smoke := nil;
+  Smoke.Hide;
 end;
 
 procedure TForm1.EnableSmokeEffect;
 begin
-  Smoke := TForm.Create(nil);
-  Smoke.Position := poDesigned;
-  Smoke.BorderStyle := bsNone;
-  Smoke.AlphaBlend := True;
-  Smoke.AlphaBlendValue := 150;
-  Smoke.Color := clBlack;
   Smoke.SetBounds(Self.Left, Self.Top, Self.Width - 15, Self.Height - 8);
   Smoke.Top := Self.Top;
   Smoke.Left := Self.Left + 7;
@@ -64,14 +52,24 @@ end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-  oldFormColor := Form1.Color;
+  Smoke := TForm.Create(nil);
+  Smoke.Position := poDesigned;
+  Smoke.BorderStyle := bsNone;
+  Smoke.AlphaBlend := True;
+  Smoke.AlphaBlendValue := 150;
+  Smoke.Color := clBlack;
+end;
+
+procedure TForm1.FormDestroy(Sender: TObject);
+begin
+  Smoke.Release
 end;
 
 procedure TForm1.onClickShowDialog(Sender: TObject);
 begin
   EnableSmokeEffect();
   ShowMessage('Smoke effect is used to highlight dialogs');
-  disableSmokeEffect();
+  DisableSmokeEffect();
 end;
 
 end.
