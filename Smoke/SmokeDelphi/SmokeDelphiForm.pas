@@ -50,12 +50,15 @@ end;
 procedure TForm1.EnableSmokeEffect;
 begin
   Smoke := TForm.Create(nil);
-  Smoke.Position := poMainFormCenter;
+  Smoke.Position := poDesigned;
   Smoke.BorderStyle := bsNone;
   Smoke.AlphaBlend := True;
   Smoke.AlphaBlendValue := 150;
   Smoke.Color := clBlack;
-  Smoke.SetBounds(Form.Left, Form.Top, Form.Width - 15, Form.Height);
+  Smoke.SetBounds(Self.Left, Self.Top, Self.Width - 15, Self.Height - 8);
+  Smoke.Top := Self.Top;
+  Smoke.Left := Self.Left + 7;
+
   Smoke.Show;
 end;
 
