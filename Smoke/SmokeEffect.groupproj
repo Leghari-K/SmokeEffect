@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{683B6DF0-7700-47AF-A39F-82ED35F6638D}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="SmokeDelphi\SmokeDelphi.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="SmokeCPP\SmokeCpp.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="SmokeDelphi">
+        <MSBuild Projects="SmokeDelphi\SmokeDelphi.dproj"/>
+    </Target>
+    <Target Name="SmokeDelphi:Clean">
+        <MSBuild Projects="SmokeDelphi\SmokeDelphi.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="SmokeDelphi:Make">
+        <MSBuild Projects="SmokeDelphi\SmokeDelphi.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="SmokeCpp">
+        <MSBuild Projects="SmokeCPP\SmokeCpp.cbproj"/>
+    </Target>
+    <Target Name="SmokeCpp:Clean">
+        <MSBuild Projects="SmokeCPP\SmokeCpp.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="SmokeCpp:Make">
+        <MSBuild Projects="SmokeCPP\SmokeCpp.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="SmokeDelphi;SmokeCpp"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="SmokeDelphi:Clean;SmokeCpp:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="SmokeDelphi:Make;SmokeCpp:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
